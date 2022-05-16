@@ -43,7 +43,11 @@ def verifyFile(file):
 encode_help = 'Performs various types of encoding e.g. Base64, Base32, URL etc.'
 @app.command(short_help=encode_help)
 def encode(string: str=typer.Option("","--string", "-s", help="Enter the string value. However it is optional to use.", show_default=False), 
-            type: str=typer.Option("","--type", "-t", help="Type of Encoding. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False)):
+            type: str=typer.Option("","--type", "-t", help="Type of Encoding. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False),
+            list:bool=typer.Option(False,"--list", "-l", help="List the available encoding operations")):
+    if list == True:
+        console.print("Base64, Base32, URL, etc")
+        exit(0)
     plainText = stringCheck(string=string)
     output = encoder.encoder(ptext=plainText)
     result = typeCheck(typ=type, output=output)
@@ -53,7 +57,12 @@ enhash_help = 'Perfoms various types of hashings such as SHA, MD5 etc'
 @app.command(short_help=enhash_help)
 def enhash(string: str=typer.Option("","--string", "-s", help="Enter the string value. However it is optional to use.", show_default=False), 
             file: str=typer.Option("","--file", "-f", help="Enter the file name", show_default=False),
-            type: str=typer.Option("","--type", "-t", help="Type of hash. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False)):
+            type: str=typer.Option("","--type", "-t", help="Type of hash. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False),
+            list: bool=typer.Option(False,"--list", "-l", help="List the available SHA operations", show_default=False)):
+    if list == True:
+        for h in encoder.hash_funcs:
+            console.print(h) 
+        exit(0)
     if file != "":
         if verifyFile(file):
             output = encoder.hash_func_itr(file)
