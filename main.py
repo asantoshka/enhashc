@@ -60,8 +60,9 @@ def enhash(string: str=typer.Option("","--string", "-s", help="Enter the string 
             type: str=typer.Option("","--type", "-t", help="Type of hash. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False),
             list: bool=typer.Option(False,"--list", "-l", help="List the available SHA operations", show_default=False)):
     if list == True:
-        for h in encoder.hash_funcs:
-            console.print(h) 
+        console.print("Here is the list of available Hash types. It can be used with the --type option.", style="bold blue")
+        for i,h in enumerate(encoder.hash_funcs):
+            console.print(f"{i+1} - {h}") 
         exit(0)
     if file != "":
         if verifyFile(file):

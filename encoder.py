@@ -11,6 +11,7 @@ def encoder(ptext):
     result['base32'] = base64.b32encode(ptext).decode("utf-8") 
     result['url'] = urllib.parse.quote(ptext)
     result['hex'] = str(ptext).encode('utf-8').hex()
+    result['reverse'] = reverse(ptext)
     return result
 
 def hasher(ptext):
@@ -36,4 +37,8 @@ def hash_func_itr(filename):
         result[key] = hash_file(filename=filename,func=func)
     return result
         
+def reverse(ptext):
+    ptext = ptext.decode("utf-8") 
+    rtext = ptext[::-1]
+    return rtext
 
