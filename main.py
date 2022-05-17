@@ -9,12 +9,12 @@ app = typer.Typer()
 
 def show(plainText, data):    
     console.print(f"The plain text String: {plainText.decode('utf-8')}", style='bold blue')
-    table = Table(show_header=True, header_style="bold blue")
+    table = Table(show_header=True, header_style="yellow")
     table.add_column("Type", style="dim", width=20)
     table.add_column("Output", min_width=20)
 
     for ops in data:
-        table.add_row(ops, data[ops])
+        table.add_row(f"[blue]{ops}[/blue]", f"[cyan]{data[ops]}[/cyan]")
     
     console.print(table)
 
@@ -46,7 +46,8 @@ def encode(string: str=typer.Option("","--string", "-s", help="Enter the string 
             type: str=typer.Option("","--type", "-t", help="Type of Encoding. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False),
             list:bool=typer.Option(False,"--list", "-l", help="List the available encoding operations")):
     if list == True:
-        console.print("Base64, Base32, URL, etc")
+        console.print("Here is the list of available Encode types. It can be used with the --type option.", style="bold blue")
+        console.print("base64, base32, url, hex, reverse")
         exit(0)
     plainText = stringCheck(string=string)
     output = encoder.encoder(ptext=plainText)
@@ -55,10 +56,10 @@ def encode(string: str=typer.Option("","--string", "-s", help="Enter the string 
 
 enhash_help = 'Perfoms various types of hashings such as SHA, MD5 etc'
 @app.command(short_help=enhash_help)
-def enhash(string: str=typer.Option("","--string", "-s", help="Enter the string value. However it is optional to use.", show_default=False), 
+def hashing(string: str=typer.Option("","--string", "-s", help="Enter the string value. However it is optional to use.", show_default=False), 
             file: str=typer.Option("","--file", "-f", help="Enter the file name", show_default=False),
             type: str=typer.Option("","--type", "-t", help="Type of hash. If you don't know what type of hash to use. Simply don't use this option(--type)", show_default=False),
-            list: bool=typer.Option(False,"--list", "-l", help="List the available SHA operations", show_default=False)):
+            list: bool=typer.Option(False,"--list", "-l", help="List the available hashing operations", show_default=False)):
     if list == True:
         console.print("Here is the list of available Hash types. It can be used with the --type option.", style="bold blue")
         for i,h in enumerate(encoder.hash_funcs):
